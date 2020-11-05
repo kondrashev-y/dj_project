@@ -9,10 +9,13 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        fields = ("email", "captcha")
+        fields = ("name", "email", "captcha")
         widgets = {
+            "name": forms.TextInput(attrs={"class": "editContent", "placeholder": "Enter your name..."}),
             "email": forms.TextInput(attrs={"class": "editContent", "placeholder": "Enter your email..."})
         }
         labels = {
+            "name": '',
             "email": ''
+
         }
