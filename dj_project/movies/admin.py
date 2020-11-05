@@ -151,7 +151,7 @@ class MovieShotsAdmin(admin.ModelAdmin):
     readonly_fields = ("get_image",)
 
     def get_image(self, obj):
-        return  mark_safe(f'<img src={obj.image.url} width="60" height="40"')
+        return mark_safe(f'<img src={obj.image.url} width="60" height="40"')
 
     get_image.short_description = "Изображение"
 
