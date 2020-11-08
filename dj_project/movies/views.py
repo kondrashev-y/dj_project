@@ -32,6 +32,31 @@ class MoviesView(GenreYear, ListView):
     #     return context
 
 
+class CategoryMoviesView(GenreYear, ListView):
+    """"Список фильмов по категории"""
+    model = Movie
+    # queryset = Movie.objects.filter(druft=False, category__url="cartoon")
+
+    def get_queryset(self):
+        queryset = Movie.objects.filter(druft=False, category__url=str(self.request.path[10:-1]))
+        # print('')
+        # print(dir(self.request))
+        # print(self.request.path[10:-1])
+        # print('')
+        return queryset
+
+
+    # def get_queryset(self):
+    #     # queryset = Movie.objects.filter(druft=False, category=self.request.GET.get("id"))
+    #     return queryset
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     context["id"] = f'{self.request.GET.get("id")}'
+    #     return context
+
+
+
 class MovieDetailView(GenreYear, DetailView):
     """Полное описание фильма"""
     model = Movie
@@ -89,7 +114,7 @@ class FilterMoviesView(GenreYear, ListView):
         queryset = Movie.objects.filter(
             Q(year__in=self.request.GET.getlist("year")) |
             Q(genres__in=self.request.GET.getlist("genre"))
-        ).distinct()  # фильтр, там где годабудут входить в список возращаемый с фрондэнда
+        ).distinct()  # фильтр, там где года будут входить в список возращаемый с фрондэнда
         return queryset
 
     def get_context_data(self, *agrs, **kwargs):

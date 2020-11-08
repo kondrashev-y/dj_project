@@ -20,7 +20,7 @@
                     <ul>
                         {% get_categories as categories %}
                         {% for category in categories %}
-                        <li><a href="/">{{ category.name }}</a></li>
+                        <li><a href="{% url 'category_list' category.url %}">{{ category.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
