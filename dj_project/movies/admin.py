@@ -44,7 +44,7 @@ class MovieShotsInline(admin.TabularInline):
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
     """Фильмы"""
-    list_display = ("title", "category", "url", "druft")
+    list_display = ("title", "category", "url", "druft", "kp_id")
     list_filter = ("category", "year")
     search_fields = ("title", "category__name")
     inlines = [MovieShotsInline, ReviewInline]
@@ -73,7 +73,7 @@ class MovieAdmin(admin.ModelAdmin):
             "fields": (("budget", "fees_in_usa", "fees_in_world"),)
         }),
         ("Options", {
-            "fields": (("url", "druft"),)
+            "fields": (("url", "druft", "kp_id"),)
         }),
     )
 

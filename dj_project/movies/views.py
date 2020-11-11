@@ -9,6 +9,8 @@ from .forms import ReviewForm, RatingForm
 
 from django.http import HttpResponse
 
+from .service import get_rating
+
 
 class GenreYear():
     """Жанры и года выхода фильмов"""
@@ -16,14 +18,14 @@ class GenreYear():
         return Genre.objects.all()
 
     def get_years(self):
-        return Movie.objects.filter(druft=False).values("year")
+        return Movie.objects.filter(druft=False).distinct().values("year")
 
 
 class MoviesView(GenreYear, ListView):
     """Список фильмов"""
     model = Movie
     queryset = Movie.objects.filter(druft=False)
-    paginate_by = 3
+    paginate_by = 6
     # template_name = "movies/movies.html"
 
     # def get_context_data(self, *args, **kwargs):
@@ -35,26 +37,15 @@ class MoviesView(GenreYear, ListView):
 class CategoryMoviesView(GenreYear, ListView):
     """"Список фильмов по категории"""
     model = Movie
-    # queryset = Movie.objects.filter(druft=False, category__url="cartoon")
 
     def get_queryset(self):
-        queryset = Movie.objects.filter(druft=False, category__url=str(self.request.path[10:-1]))
+        queryset = Movie.objects.filter(druft=False, category__url=self.kwargs.get('slug'))
         # print('')
         # print(dir(self.request))
         # print(self.request.path[10:-1])
+        # print(self.request.user)
         # print('')
         return queryset
-
-
-    # def get_queryset(self):
-    #     # queryset = Movie.objects.filter(druft=False, category=self.request.GET.get("id"))
-    #     return queryset
-
-    # def get_context_data(self, *args, **kwargs):
-    #     context = super().get_context_data(*args, **kwargs)
-    #     context["id"] = f'{self.request.GET.get("id")}'
-    #     return context
-
 
 
 class MovieDetailView(GenreYear, DetailView):
@@ -66,6 +57,16 @@ class MovieDetailView(GenreYear, DetailView):
         context = super().get_context_data(**kwargs)
         context["star_form"] = RatingForm()
         context["form"] = ReviewForm()
+        rq = Movie.objects.filter(url=self.kwargs.get('slug'))
+        context["imdb"] = get_rating(rq[0].kp_id)
+
+        # rq = Movie.objects.filter(url=self.kwargs.get('slug')) #.values("kp_id")
+        # print(dir(rq))
+        # print(rq[0].kp_id)
+        # for i in rq:
+        #     print(i.kp_id)
+        # # print(rq[0]["kp_id"])
+
         return context
 
 # class MovieDetailView(View):
@@ -148,6 +149,7 @@ class AddStarRating(View):
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+
 
     def post(self, request):
         form = RatingForm(request.POST)

@@ -57,7 +57,7 @@
                 <li>
                     <form action="{% url 'add_rating' %}" method="post" name="rating">
                         <b>Рейтинг:</b>
-                        {% csrf_token %}
+
                         <input type="hidden" value="{{ movie.id }}" name="movie">
                         <span class="rating">
                             {% for k, v in star_form.fields.star.choices %}
@@ -67,7 +67,14 @@
                             {% endfor %}
                         </span>
                         <span class="editContent">4.0</span>
+                        {% csrf_token %}
                     </form>
+                </li>
+                <li><span><b>Рейтинг iMDB: </b>
+                {% for i in imdb %}
+                    {{ i }}
+                {% endfor %}
+                </span>
                 </li>
                 <div class="share-desc">
                     <div class="share">
