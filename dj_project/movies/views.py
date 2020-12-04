@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, Avg, F, Count, Sum
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -10,6 +10,8 @@ from .forms import ReviewForm, RatingForm
 from django.http import HttpResponse
 
 from .service import get_rating
+
+
 
 
 class GenreYear():
@@ -40,12 +42,26 @@ class CategoryMoviesView(GenreYear, ListView):
 
     def get_queryset(self):
         queryset = Movie.objects.filter(druft=False, category__url=self.kwargs.get('slug'))
-        # print('')
-        # print(dir(self.request))
-        # print(self.request.path[10:-1])
-        # print(self.request.user)
-        # print('')
         return queryset
+
+
+class RatingMovieViewList(GenreYear, ListView):
+    """Список фильмоф по рейтингу"""
+
+    model = Movie
+    template_name = 'movies/rating.html'
+
+    def get_queryset(self):
+        queryset = Movie.objects.filter(druft=False).annotate(avg_rating=Avg('ratings__star'))
+        # for i in queryset:
+        #     print(i, i.avg_rating)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['rt'] = self.kwargs.get('rt')
+        print(context)
+        return context
 
 
 class MovieDetailView(GenreYear, DetailView):
@@ -57,17 +73,21 @@ class MovieDetailView(GenreYear, DetailView):
         context = super().get_context_data(**kwargs)
         context["star_form"] = RatingForm()
         context["form"] = ReviewForm()
-        rq = Movie.objects.filter(url=self.kwargs.get('slug'))
-        context["imdb"] = get_rating(rq[0].kp_id)
-
-        # rq = Movie.objects.filter(url=self.kwargs.get('slug')) #.values("kp_id")
-        # print(dir(rq))
-        # print(rq[0].kp_id)
-        # for i in rq:
-        #     print(i.kp_id)
-        # # print(rq[0]["kp_id"])
+        rq = Movie.objects.get(url=self.kwargs.get('slug'))
+        context["imdb"] = get_rating(rq.kp_id)
+        st = Rating.objects.filter(movie__url=self.kwargs.get('slug')).aggregate(avg_rating=Avg('star'))["avg_rating"]
+        # st1 = Rating.objects.filter(movie__url='terminator').aggregate(avg_rating=Avg('star'))["avg_rating"]
+        # print(st1)
+        try:
+            context["avg_rating"] = str(round(st, 1))
+        except TypeError:
+            context["avg_rating"] = '0.0'
+        # rq = Movie.objects.get(url=self.kwargs.get('slug')) #.values("kp_id")
+        # print(rq.kp_id)
 
         return context
+
+
 
 # class MovieDetailView(View):
     # def get(self, request, slug):

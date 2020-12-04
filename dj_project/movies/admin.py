@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django import forms
+from django.forms import Textarea
 from django.utils.safestring import mark_safe
+from django.db import models
 
 from .models import Category, Genre, Actor, RingStar, Reviews, Rating, Movie, MovieShots
 
@@ -16,7 +18,6 @@ class MovieAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """Категории"""
@@ -26,13 +27,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ReviewInline(admin.TabularInline):
     model = Reviews
-    extra = 1
+    formfield_overrides = {models.TextField: {'widget': Textarea(attrs={'rows': 5, 'cols': 90})}}
+    extra = 0 # количество пустых дополнительных полей
     readonly_fields = ("name", "email")
 
 
 class MovieShotsInline(admin.TabularInline):
     model = MovieShots
-    extra = 1  # количество пустых дополнительных полей
+    formfield_overrides = {models.TextField: {'widget': Textarea(attrs={'rows': 3, 'cols': 40})}}
+    extra = 0  # количество пустых дополнительных полей
     readonly_fields = ("get_image",)
 
     def get_image(self, obj):
@@ -60,7 +63,7 @@ class MovieAdmin(admin.ModelAdmin):
             "fields": (("title", "tagline"), )
         }),
         (None, {
-            "fields": ("description", "poster", ("category", "get_image") )
+            "fields": (("description"), "poster", ("category", "get_image"), )
         }),
         (None, {
             "fields": (("year", "world_premiere", "country"), )
@@ -80,8 +83,6 @@ class MovieAdmin(admin.ModelAdmin):
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="80" height="100"')
 
-
-
     def unpublish(self, request, queryset):
         """Снять с публикации"""
         row_update = queryset.update(druft=True)
@@ -91,8 +92,6 @@ class MovieAdmin(admin.ModelAdmin):
             message_bit = f"{row_update} записей обновлено"
         self.message_user(request, f"{message_bit}")
 
-
-
     def publish(self, request, queryset):
         """Опубликовать"""
         row_update = queryset.update(druft=False)
@@ -101,7 +100,6 @@ class MovieAdmin(admin.ModelAdmin):
         else:
             message_bit = f"{row_update} записей обновлено"
         self.message_user(request, f"{message_bit}")
-
 
     unpublish.short_description = "Снять с публикации"
     unpublish.allowed_permission = ('change', )
@@ -147,6 +145,8 @@ class RatingAdmin(admin.ModelAdmin):
 @admin.register(MovieShots)
 class MovieShotsAdmin(admin.ModelAdmin):
     """Кадры из фильма"""
+    formfield_overrides = {models.TextField: {'widget': Textarea(attrs={'rows': 3, 'cols': 40})}}
+
     list_display = ("movie", "title", "description", "get_image")
     readonly_fields = ("get_image",)
 

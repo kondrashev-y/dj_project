@@ -66,6 +66,7 @@ const rating = document.querySelector('form[name=rating]');
 rating.addEventListener("change", function (e) {
     // Получаем данные из формы
     let data = new FormData(this);
+//    console.log(data);
     fetch(`${this.action}`, {
         method: 'POST',
         body: data

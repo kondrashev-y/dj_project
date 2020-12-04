@@ -20,9 +20,19 @@ class ReviewForm(forms.ModelForm):
 class RatingForm(forms.ModelForm):
     """Форма добавления рейтинга"""
     star = forms.ModelChoiceField(
-        queryset=RingStar.objects.all(), widget=forms.RadioSelect(), empty_label=None
+        queryset=RingStar.objects.all(), widget=forms.RadioSelect(), empty_label=None,
     )
 
     class Meta:
         model = Rating
         fields = ("star",)
+
+# class AvrgRatingForm(forms.ModelForm):
+#     """Форма среднего рейтинга"""
+#     avrgstar = forms.ModelChoiceField(
+#         queryset=RingStar.objects.all(), widget=forms.RadioSelect(), empty_label=None,
+#     )
+#
+#     class Meta:
+#         model = Rating
+#         fields = ("avrgstar",)

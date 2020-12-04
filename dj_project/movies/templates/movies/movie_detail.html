@@ -2,6 +2,13 @@
 {% load static %}
 <title>{% block title %}  {{ movie.title }}  {% endblock title %}</title>
 {% block container %}
+<nav aria-label="breadcrumb" class="mt-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Главная</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'category_list' movie.category.url %}">{{ movie.category }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ movie }}</li>
+  </ol>
+</nav>
 <div class="container py-md-3">
 {% endblock container %}
 
@@ -66,7 +73,7 @@
                                 <label for="rating{{ v }}">{{ k }}</label>
                             {% endfor %}
                         </span>
-                        <span class="editContent">4.0</span>
+                        <span class="editContent">{{avg_rating}}</span>
                         {% csrf_token %}
                     </form>
                 </li>

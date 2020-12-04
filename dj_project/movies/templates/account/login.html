@@ -1,25 +1,24 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
-{% load account %}
+{% load account socialaccount %}
 <!--{#{% load account socialaccount %}#} -->
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
+<h1 style="text-align:center;">{% trans "Sign In" %}</h1>
 
-<h1>{% trans "Sign In" %}</h1>
-
-<!--{#{% get_providers as socialaccount_providers %}#}-->
+{% get_providers as socialaccount_providers %}
 
 {% if socialaccount_providers %}
-<p>{% blocktrans with site.name as site_name %}Please sign in with one
+<p style="text-align:center;">{% blocktrans with site.name as site_name %}Please sign in with one
 of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
 for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
-<div class="socialaccount_ballot">
+<div class="socialaccount_ballot" style="text-align:center;">
 
-  <ul class="socialaccount_providers">
+  <ul class="socialaccount_providers" >
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
   </ul>
 
@@ -34,7 +33,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
 {% endif %}
 
-<form class="login" method="POST" action="{% url 'account_login' %}">
+<form  style="text-align:center;"class="login" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   {{ form.as_p }}
   {% if redirect_field_value %}

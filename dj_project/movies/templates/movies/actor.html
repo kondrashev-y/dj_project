@@ -25,13 +25,13 @@
                 <li>
                     <span><b>Режиссер: </b>
                         {% for movie in actor.film_director.all %}
-                            {{ movie.title }}
+                            <a href="{{ movie.get_absolute_url }}">{{ movie.title }}<a/>
                         {% endfor %}
                     </span></li>
                 <li>
                     <span><b>Актер: </b>
                         {% for movie in actor.film_actor.all %}
-                            {{ movie.name }}
+                            <a href="{{ movie.get_absolute_url }}">{{ movie.title }}, </a>
                         {% endfor %}
                     </span>
                 </li>
