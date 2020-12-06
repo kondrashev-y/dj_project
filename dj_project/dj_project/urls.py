@@ -26,7 +26,9 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('allauth.urls')),
     path('pages/', include('django.contrib.flatpages.urls')),
-    path('contact/',include("contact.urls")),
+    path('contact/', include("contact.urls")),
+    path('api/', include('movies.api.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     path('', include('movies.urls')),
 ]
 

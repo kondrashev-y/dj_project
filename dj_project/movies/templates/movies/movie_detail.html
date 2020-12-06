@@ -36,13 +36,14 @@
                 <li style="list-style: none">
                     <span><b>Режиссер: </b>
                         {% for director in movie.directors.all %}
-                            <a href="{% url 'actor_list_url' director.name %}">{{ director.name }}</a>
+                               <a href="{% url 'actor_list_url' director.name %}">{{ director.name}}{% if not forloop.last %},{% endif %}</a>
                         {% endfor %}
                     </span></li>
                 <li style="list-style: none">
                     <span><b>Актеры: </b>
+<!--                        <a href="{{actor.get_absolute_url}}">{{ movie.actors.all|safeseq|join:", " }}</a>-->
                         {% for actor in movie.actors.all %}
-                            <a href="{{actor.get_absolute_url}}">{{ actor.name }}</a>
+                            <a href="{{actor.get_absolute_url}}">{{ actor.name }}{% if not forloop.last %},{% endif %}</a>
                         {% endfor %}
                     </span>
                 </li>

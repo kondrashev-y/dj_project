@@ -3,10 +3,9 @@
 {% block header %} bg1 {% endblock header %}
 {% block movie %}
     <div class="left-ads-display col-lg-9">
-        {{rt}}
         <div class="row">
             {% for movie in movie_list %}
-                {% if movie.avg_rating > rt %}
+                {% if movie.avg_rating >= rt and movie.avg_rating < rt|add:1  %}
                 <div class="col-md-4 product-men">
                     <div class="product-shoe-info editContent text-center mt-lg-4" >
                         <div class="men-thumb-item">
@@ -32,7 +31,7 @@
                                 <label></label>
                                 <label></label>
                         </span>
-                        <span class="editContent">{{movie.avg_rating}}</span>
+                        <span class="editContent">{{movie.avg_rating|floatformat:"g"}}</span>
 <!--                            <ul class="stars">-->
 <!--                                <li><a href="#"><span class="fa fa-star" aria-hidden="true" ></span></a></li>-->
 <!--                                <li><a href="#"><span class="fa fa-star" aria-hidden="true" ></span></a></li>-->
