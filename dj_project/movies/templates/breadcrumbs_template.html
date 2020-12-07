@@ -1,0 +1,13 @@
+<nav aria-label="breadcrumb" class="mt-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Главная</a></li>
+    {% for crumb in crumbs %}
+    {% if not forloop.last %}
+    <li class="breadcrumb-item"><a href="{{ crumb.get_absolute_url }}">{{ crumb }}</a></li>
+    {% elif forloop.last %}
+    <li class="breadcrumb-item active" aria-current="page">{{ crumb }}</li>
+    {% endif %}
+    {% endfor %}
+  </ol>
+</nav>
+<div class="container py-md-3">
