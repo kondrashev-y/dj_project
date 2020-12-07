@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static recaptcha3 %}
+{% load breadcrumps_tag %}
 <html lang="ru">
 <head>
     <!-- //Meta tag Keywords -->
@@ -30,12 +31,15 @@
         {% include 'include/header.html' %}
         </div>
 
-        <ol class="breadcrumb editContent">
-            <li class="breadcrumb-item">
-                <a href="/" class="editContent">Home</a>
-            </li>
-            <li class="breadcrumb-item active editContent">{{ movie.category }}</li>
-        </ol>
+        {% breadcrumbs %}
+
+
+<!--        <ol class="breadcrumb editContent">-->
+<!--            <li class="breadcrumb-item">-->
+<!--                <a href="/" class="editContent">Home</a>-->
+<!--            </li>-->
+<!--            <li class="breadcrumb-item active editContent">{{ movie.category }}</li>-->
+<!--        </ol>-->
 
             {% block content %}
 

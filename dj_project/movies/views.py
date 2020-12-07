@@ -114,18 +114,20 @@ class AddReviews(View):
 
 
 class ActorView(GenreYear, DetailView):
-    """Вывод информации об актере(не работает , разобраться)"""
+    """Вывод информации об актере"""
     model = Actor
     template_name = 'movies/actor.html'
     slug_field = "name"
 
 
+class ActorListView(GenreYear, ListView):
+    """Вывод списка актеров и режиссеров"""
 
-class ActorListView(GenreYear, DetailView):
-    """Вывод информации об актере"""
-    def get(self, request, name):
-        actor = Actor.objects.get(name=name)
-        return render(request, 'movies/actor.html', context={'actor': actor})
+    model = Actor
+    # template_name =
+    # def get(self, request, name):
+    #     actor = Actor.objects.all()
+    #     return render(request, 'movies/actors.html', context={'actor': actor})
 
 
 class FilterMoviesView(GenreYear, ListView):
