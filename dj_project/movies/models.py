@@ -17,6 +17,9 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+    def get_absolute_url(self):
+        return reverse("category_list", kwargs={"slug": self.url})
+
 
 class Actor(models.Model):
     """Актеры и режессеры"""

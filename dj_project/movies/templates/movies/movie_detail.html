@@ -3,16 +3,15 @@
 {% load breadcrumps_tag %}
 <title>{% block title %}  {{ movie.title }}  {% endblock title %}</title>
 {% block container %}
-<nav aria-label="breadcrumb" class="mt-3">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/">Главная</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'category_list' movie.category.url %}">{{ movie.category }}</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ movie }}</li>
-  </ol>
-</nav>
+<!--<nav aria-label="breadcrumb" class="mt-3">-->
+<!--  <ol class="breadcrumb">-->
+<!--    <li class="breadcrumb-item"><a href="/">Главная</a></li>-->
+<!--    <li class="breadcrumb-item"><a href="{% url 'category_list' movie.category.url %}">{{ movie.category }}</a></li>-->
+<!--    <li class="breadcrumb-item active" aria-current="page">{{ movie }}</li>-->
+<!--  </ol>-->
+<!--</nav>-->
 <div class="container py-md-3">
 
-{% breadcrumbs obj=movie %}
 
 {% endblock container %}
 
