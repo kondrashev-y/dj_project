@@ -69,7 +69,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         list_serializer_class = FilterReviewListSerializer
         model = Reviews
-        fields = ('name', 'text', 'children')
+        fields = ('id', 'name', 'text', 'children')
 
 
 class MovieDetailsSerializer(serializers.ModelSerializer):

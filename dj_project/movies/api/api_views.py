@@ -1,9 +1,10 @@
 from django.db import models
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, DestroyAPIView
+from rest_framework import permissions
 
-from ..models import Movie, Actor
+from ..models import Movie, Actor, Reviews
 from .serializers import (
     MovieListSerializer,
     MovieDetailsSerializer,
@@ -11,6 +12,7 @@ from .serializers import (
     RatingCreateSerializer,
     ActorSerializer,
     ActorDetailSerializer,
+    ReviewSerializer,
 )
 
 from .service import get_client_ip, MovieFilter
@@ -47,6 +49,14 @@ class MovieDetailApiViews(RetrieveAPIView):
 
     queryset = Movie.objects.filter(druft=False)
     serializer_class = MovieDetailsSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class ReviewDestroy(DestroyAPIView):
+    """Удаление отзыва"""
+    queryset = Reviews.objects.all()
+    # permission_classes = ReviewSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 # class ReviewCreateApiViews(APIView):
