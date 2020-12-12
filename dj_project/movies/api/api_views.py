@@ -16,6 +16,7 @@ from .serializers import (
 )
 
 from .service import get_client_ip, MovieFilter
+from .permissions import IsSuperUser
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -26,6 +27,7 @@ class MovieListApiViews(ListAPIView):
     serializer_class = MovieListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = MovieFilter
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         movies = Movie.objects.filter(druft=False).annotate(
@@ -72,6 +74,7 @@ class ReviewCreateApiViews(CreateAPIView):
     """Добавление отзыва к фильму"""
 
     serializer_class = ReviewCreateSerializer
+    permission_classes = [IsSuperUser]
 
 # class RatingCreateApiViews(APIView):
 #     """Добавление рейтинга к фильму"""
