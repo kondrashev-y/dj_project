@@ -3,7 +3,6 @@ from django.urls import path
 from . import views
 
 
-
 urlpatterns = [
     path("", views.MoviesView.as_view()),
     path("filter/", views.FilterMoviesView.as_view(), name='filter'),  # поставлен специально перед урл муви слаг, для того что бы урл не попадал по запрос по фильму

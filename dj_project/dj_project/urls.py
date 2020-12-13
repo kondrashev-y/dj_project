@@ -19,6 +19,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 
+from .yasg import urlpatterns as doc_urls
+
 
 
 urlpatterns = [
@@ -29,9 +31,13 @@ urlpatterns = [
     path('contact/', include("contact.urls")),
     path('api/', include('movies.api.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('auth/', include('djoser.urls.jwt')),
     path('', include('movies.urls')),
 ]
 
+urlpatterns += doc_urls
 
 
 if settings.DEBUG:

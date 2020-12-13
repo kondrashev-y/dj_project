@@ -49,7 +49,7 @@ class MovieDetailApiViews(RetrieveAPIView):
 
     queryset = Movie.objects.filter(druft=False)
     serializer_class = MovieDetailsSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ReviewDestroy(DestroyAPIView):
