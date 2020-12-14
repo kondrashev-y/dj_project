@@ -35,6 +35,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     path('auth/', include('djoser.urls.jwt')),
     path('', include('movies.urls')),
+    path('auth/', include('rest_framework_social_oauth2.urls')),
 ]
 
 urlpatterns += doc_urls

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
-
+from .social_keys import SOCIAL_AUTH_VK_OAOTH2, SOCIAL_AUTH_VK_OAOTH2_SECRET
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -56,6 +56,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.vk',
+
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -106,9 +110,14 @@ DATABASES = {
     }
 }
 
+SOCIAL_AUTH_VK_OAOTH2 = SOCIAL_AUTH_VK_OAOTH2
+SOCIAL_AUTH_VK_OAOTH2_SECRET = SOCIAL_AUTH_VK_OAOTH2_SECRET
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'social_core.backends.vk.VKOAuth2',
 )
 
 
@@ -150,8 +159,8 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
-# EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' # при dummy подтверждение почты не происходит, при отправки заменить на smtp
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # при dummy подтверждение почты не происходит, при отправки заменить на smtp
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend' # при dummy подтверждение почты не происходит, при отправки заменить на smtp
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # при dummy подтверждение почты не происходит, при отправки заменить на smtp
 
 
 # Static files (CSS, JavaScript, Images)
@@ -255,6 +264,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
